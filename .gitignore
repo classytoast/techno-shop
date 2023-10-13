@@ -1,0 +1,5 @@
+/venv/
+
+/ts_back/db.sqlite3
+
+/.idea
