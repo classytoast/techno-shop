@@ -9,11 +9,18 @@ class Manufacturer(models.Model):
     image = models.ImageField(upload_to="manufacturers/%Y/%m/%d/", blank=True,
                               verbose_name='лого производителя', null=True)
 
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Производитель'
+        verbose_name_plural = 'Производители'
+
 
 class Goods(models.Model):
     name = models.CharField(max_length=100, verbose_name='наименование')
     slug = models.SlugField(max_length=100, unique=True, db_index=True, verbose_name="URL")
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL,
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True,
                                  related_name="cat_goods", verbose_name='категория')
     model = models.CharField(max_length=250, null=True, blank=True, verbose_name='модель')
     description = models.TextField(max_length=3000, verbose_name='описание')
@@ -22,11 +29,18 @@ class Goods(models.Model):
     quantity = models.PositiveIntegerField(verbose_name='кол-во товара в наличии')
     warranty = models.PositiveSmallIntegerField(verbose_name='гарантия в мес.')
 
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Товар'
+        verbose_name_plural = 'Товары'
+
 
 class GoodsCharacteristics(models.Model):
     goods = models.OneToOneField(Goods, on_delete=models.CASCADE,
                                  verbose_name='товар')
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL,
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True,
                                  verbose_name='категория')
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,
                                      related_name="man_goods", verbose_name='производитель')
@@ -34,7 +48,7 @@ class GoodsCharacteristics(models.Model):
                             verbose_name='размер')
     weight = models.CharField(max_length=55, null=True, blank=True,
                               verbose_name="вес")
-    production_year = models.PositiveSmallIntegerField(max_length=4, null=True, blank=True,
+    production_year = models.PositiveSmallIntegerField(null=True, blank=True,
                                                        verbose_name='год производства')
     material = models.CharField(max_length=255, null=True, blank=True,
                                 verbose_name='материал ')
@@ -67,7 +81,18 @@ class GoodsCharacteristics(models.Model):
     additional_information = models.TextField(max_length=1000, null=True, blank=True,
                                               verbose_name='дополнительная информация')
 
+    def __str__(self):
+        return f"characteristics for {self.goods}"
+
+    class Meta:
+        verbose_name = 'Характеристика'
+        verbose_name_plural = 'Характеристики'
+
 
 class GoodsImage(models.Model):
     img = models.ImageField(upload_to="img_of_post/%Y/%m/%d/", verbose_name='изображение')
     goods = models.ForeignKey(Goods, on_delete=models.CASCADE, related_name='images', verbose_name='товар')
+
+    class Meta:
+        verbose_name = 'Изображение товара'
+        verbose_name_plural = 'Изображения товара'

@@ -8,3 +8,10 @@ class Category(models.Model):
                                on_delete=models.SET_NULL, null=True, blank=True)
     image = models.ImageField(upload_to="categories/%Y/%m/%d/", blank=True,
                               verbose_name='фото категории', null=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
