@@ -25,7 +25,7 @@ class Goods(models.Model):
     model = models.CharField(max_length=250, null=True, blank=True, verbose_name='модель')
     description = models.TextField(max_length=3000, verbose_name='описание')
     price = models.PositiveIntegerField(verbose_name='цена')
-    discounted_price = models.PositiveIntegerField(null=True, blank=True, verbose_name='цена')
+    discounted_price = models.PositiveIntegerField(null=True, blank=True, verbose_name='цена со скидкой')
     quantity = models.PositiveIntegerField(verbose_name='кол-во товара в наличии')
     warranty = models.PositiveSmallIntegerField(verbose_name='гарантия в мес.')
 
@@ -35,10 +35,11 @@ class Goods(models.Model):
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
+        ordering = ['price']
 
 
 class GoodsCharacteristics(models.Model):
-    goods = models.OneToOneField(Goods, on_delete=models.CASCADE,
+    goods = models.OneToOneField(Goods, on_delete=models.CASCADE, related_name='chars',
                                  verbose_name='товар')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True,
                                  verbose_name='категория')

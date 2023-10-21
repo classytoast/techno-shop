@@ -7,6 +7,6 @@ class CategorySerializer(serializers.ModelSerializer):
     """Сериалайзер категорий товаров на сайте"""
     class Meta:
         model = Category
-        fields = "__all__"
+        fields = ('name', 'slug', 'parent', 'image')
         lookup_field = 'slug'
 

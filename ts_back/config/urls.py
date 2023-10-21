@@ -1,12 +1,14 @@
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework import routers
 
 from catalog.views import *
-from rest_framework import routers
+from goods.views import *
 
 
 router = routers.DefaultRouter()
-router.register(r'', CategoryViewSet, basename='categories')
+router.register(r'categories', CategoryViewSet, basename='categories')
+router.register(r'goods', GoodsViewSet, basename='goods')
 
 
 urlpatterns = [
